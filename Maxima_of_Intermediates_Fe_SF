@@ -1,0 +1,89 @@
+setwd('G:/R/Project1/')
+
+# Data of maximum peak accumulations of Fe-racPYBP/H2O2 with various [H2O2] and temperatures.
+Fr3<-matrix(c(0.79131,0.83718,0.59437,0.46167,0.74564,0.70536,0.53532,0.40536,0.31806,0.62917,0.47559,0.3404,0.61337,0.48381,0.46848,0.31043),4,4)
+colnames(Fr3)<-c(15,5,-5,-15)
+rownames(Fr3)<-c(20,40,70,100)
+
+Fr4<-matrix(c(0.18297,0.19099,0.15696,0.14381,0.15498,0.16059,0.15811,0.14934,0.17259,0.18372,0.18972,0.17771,0.14566,0.14285,0.13768,0.1378),4,4)
+colnames(Fr4)<-c(15,5,-5,-15)
+rownames(Fr4)<-c(20,40,70,100)
+
+# Plotting the Fe(IV)=O and Fe(III)-OOH maxima against [H2O2] and temperatures.
+par(mfrow=c(2,2),mar=c(4,4,2,2))
+cols<-c('blue','red','green','purple')
+
+# Fe(IV)=O max accumulation.
+LIM<-c(0,max(Fr4)*1.1)
+plot(Fr4[1,]~rownames(Fr4),main='Max Accumulation of Fe(IV)=O vs. [H2O2]',xlab='Concentration (Mol.Eq.)',ylab='Absorption',type='n',ylim=LIM)
+sapply(seq_along(Fr4),function(i){
+  r<-floor((i-1)/4)+1
+  c<-i%%4+1
+  points(rownames(Fr4)[r],Fr4[r,c],pch=19,col=cols[c])
+})
+legend('bottomleft',pch=19,legend=colnames(Fr4),col=cols)
+
+plot(Fr4[,1]~colnames(Fr4),main='Max Accumulation of Fe(IV)=O vs. Temperature',xlab='Temperature (C)',ylab='Absorption',type='n',ylim=LIM)
+sapply(seq_along(Fr4),function(i){
+  r<-floor((i-1)/4)+1
+  c<-i%%4+1
+  points(colnames(Fr4)[c],Fr4[r,c],pch=19,col=cols[r])
+})
+legend('bottomleft',pch=19,legend=rownames(Fr4),col=cols)
+
+# Fe(III)-OOH accumulation.
+LIM<-c(0,max(Fr3)*1.1)
+plot(Fr3[1,]~rownames(Fr3),main='Max Accumulation of Fe(III)-OOH vs. [H2O2]',xlab='Concentration (Mol.Eq.)',ylab='Absorption',type='n',ylim=LIM)
+sapply(seq_along(Fr3),function(i){
+  r<-floor((i-1)/4)+1
+  c<-i%%4+1
+  points(rownames(Fr3)[r],Fr3[r,c],pch=19,col=cols[c])
+})
+legend('bottomleft',pch=19,legend=colnames(Fr3),col=cols)
+
+plot(Fr3[,1]~colnames(Fr3),main='Max Accumulation of Fe(III)-OOH vs. Temperature',xlab='Temperature (C)',ylab='Absorption',type='n',ylim=LIM)
+sapply(seq_along(Fr3),function(i){
+  r<-floor((i-1)/4)+1
+  c<-i%%4+1
+  points(colnames(Fr3)[c],Fr3[r,c],pch=19,col=cols[r])
+})
+legend('bottomright',pch=19,legend=rownames(Fr3),col=cols)
+
+
+#=============================================================================================================================================#
+# Data of Fe-mesoPYBP; note -15C SF datasets were not completed. Also maxima of Fe(IV)=O were unable to determine.
+
+Fm3<-t(matrix(c(0.51094,0.47603,0.47844,0.4415,0.48852,0.51235,0.40736,0.45738,0.42812,0.37596,0.41216,0.39455),3,4))
+colnames(Fm3)<-c(15,5,-5)
+rownames(Fm3)<-c(20,40,70,100)
+
+# Plotting.
+par(mfrow=c(2,2),mar=c(4,4,2,2))
+cols<-c('blue','red','green','purple')
+
+# Fe(III)-OOH accumulation.
+LIM<-c(0,max(Fm3)*1.1)
+plot(Fm3[,1]~rownames(Fm3),main='Max Accumulation of Fe(III)-OOH vs. [H2O2]',xlab='Concentration (Mol.Eq.)',ylab='Absorption',type='n',ylim=LIM)
+sapply(seq_along(Fm3),function(i){
+  r<-floor((i-1)/3)+1
+  c<-i%%3+1
+  points(rownames(Fm3)[r],Fm3[r,c],pch=19,col=cols[c])
+})
+legend('bottomleft',pch=19,legend=colnames(Fm3),col=cols)
+
+plot(Fm3[1,]~colnames(Fm3),main='Max Accumulation of Fe(III)-OOH vs. Temperature',xlab='Temperature (C)',ylab='Absorption',type='n',ylim=LIM)
+sapply(seq_along(Fm3),function(i){
+  r<-floor((i-1)/3)+1
+  c<-i%%3+1
+  points(colnames(Fm3)[c],Fm3[r,c],pch=19,col=cols[r])
+})
+legend('bottomleft',pch=19,legend=rownames(Fm3),col=cols)
+
+# Data with more temperatures at [H2O2]=20eq are available.
+Fm3a<-matrix(c(0.5078,0.47366,0.47701,0.48859,0.47741,0.47227,0.46148,0.45097))
+rownames(Fm3a)<-c(15,10,5,0,-5,-10,-15,-20)
+LIM<-c(0.3,max(Fm3a))
+plot(Fm3a~rownames(Fm3a),main='Max Accumulation of Fe(III)-OOH vs. Temperature ([H2O2]=20eq)',xlab='Temperature (C)',ylab='Absorption',ylim=LIM,pch=19)
+# The data are likely linear dependent to temperature, but 5C and 10C are outliers.
+abline(lm(Fm3a~as.numeric(rownames(Fm3a))),lwd=1,col='red')
+text(11,0.45,paste('R2 = ',round(cor(Fm3a,as.numeric(rownames(Fm3a))),digits=4)))
